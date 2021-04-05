@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Route } from 'react-router';
 import { Counter } from './components/Counter';
 import { FetchData } from './components/FetchData';
@@ -6,7 +6,7 @@ import { Home } from './components/Home';
 import { Layout } from './components/Layout';
 import './custom.css';
 
-const App = () => {
+const App: FC = () => {
   return (
     <Layout>
       <Route exact path="/" component={Home} />

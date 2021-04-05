@@ -1,7 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
-export const FetchData = () => {
-  const [state, setState] = useState({ forecasts: [], loading: true });
+type Forecast = {
+  date: Date;
+  temperatureC: number;
+  temperatureF: number;
+  summary: string;
+};
+
+type State = {
+  forecasts: Forecast[];
+  loading: boolean;
+};
+
+export const FetchData: FC = () => {
+  const [state, setState] = useState<State>({ forecasts: [], loading: true });
 
   useEffect(() => {
     populateWeatherData();
@@ -13,7 +25,7 @@ export const FetchData = () => {
     setState({ forecasts: data, loading: false });
   };
 
-  const renderForecastsTable = (forecasts) => {
+  const renderForecastsTable = (forecasts: Forecast[]) => {
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
@@ -26,7 +38,7 @@ export const FetchData = () => {
         </thead>
         <tbody>
           {forecasts.map((forecast) => (
-            <tr key={forecast.date}>
+            <tr key={Number(forecast.date)}>
               <td>{forecast.date}</td>
               <td>{forecast.temperatureC}</td>
               <td>{forecast.temperatureF}</td>

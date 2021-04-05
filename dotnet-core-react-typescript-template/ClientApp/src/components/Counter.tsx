@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
-export const Counter = () => {
+export const Counter: FC = () => {
   const [currentCount, setCurrentCount] = useState(0);
 
   const incrementCounter = () => {

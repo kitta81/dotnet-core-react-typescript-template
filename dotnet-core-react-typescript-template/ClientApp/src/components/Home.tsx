@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-export const Home = () => {
+export const Home: FC = () => {
   return (
     <div>
       <h1>Hello, world!</h1>
       <p>Welcome to your new single-page application, built with:</p>
       <ul>
         <li>
-          <a href="https://get.asp.net/">ASP.NET Core</a> and{' '}
+          <a href="https://get.asp.net/">ASP.NET Core</a> and
           <a href="https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx">
             C#
           </a>
