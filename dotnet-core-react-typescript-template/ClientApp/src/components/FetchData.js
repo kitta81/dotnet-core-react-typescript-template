@@ -1,20 +1,21 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export class FetchData extends Component {
-  static displayName = FetchData.name;
+export const FetchData = () => {
+  const [state, setState] = useState({ forecasts: [], loading: true });
 
-  constructor(props) {
-    super(props);
-    this.state = { forecasts: [], loading: true };
-  }
+  useEffect(() => {
+    populateWeatherData();
+  }, []);
 
-  componentDidMount() {
-    this.populateWeatherData();
-  }
+  const populateWeatherData = async () => {
+    const response = await fetch('weatherforecast');
+    const data = await response.json();
+    setState({ forecasts: data, loading: false });
+  };
 
-  static renderForecastsTable(forecasts) {
+  const renderForecastsTable = (forecasts) => {
     return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
+      <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
           <tr>
             <th>Date</th>
@@ -24,36 +25,32 @@ export class FetchData extends Component {
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
+          {forecasts.map((forecast) => (
             <tr key={forecast.date}>
               <td>{forecast.date}</td>
               <td>{forecast.temperatureC}</td>
               <td>{forecast.temperatureF}</td>
               <td>{forecast.summary}</td>
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
     );
-  }
+  };
 
-  render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+  let contents = state.loading ? (
+    <p>
+      <em>Loading...</em>
+    </p>
+  ) : (
+    renderForecastsTable(state.forecasts)
+  );
 
-    return (
-      <div>
-        <h1 id="tabelLabel" >Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
-        {contents}
-      </div>
-    );
-  }
-
-  async populateWeatherData() {
-    const response = await fetch('weatherforecast');
-    const data = await response.json();
-    this.setState({ forecasts: data, loading: false });
-  }
-}
+  return (
+    <div>
+      <h1 id="tabelLabel">Weather forecast</h1>
+      <p>This component demonstrates fetching data from the server.</p>
+      {contents}
+    </div>
+  );
+};
